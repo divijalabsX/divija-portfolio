@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { BrowserRouter, Link, NavLink, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Github, Linkedin, Mail, Menu, X, FileDown, ExternalLink, ChevronRight, BriefcaseBusiness, GraduationCap, Code2, Sparkles } from 'lucide-react'
 import { projects, skillGroups } from './data/content'
 
 const profile = {
-  name: 'Divija Jain', email: '', github: '', linkedin: '', resume: ''
+  name: 'Divija Jain', email: 'jain.divija012@gmail.com', github: 'https://github.com/divijalabsX', linkedin: 'https://www.linkedin.com/in/divijaai0', resume: '/resume.pdf'
 }
 const sections = [
   { label: 'Home', path: '/', short: 'Home' },
@@ -15,7 +15,7 @@ const sections = [
   { label: 'Skills', path: '/skills', short: 'Skills' },
   { label: 'Contact', path: '/contact', short: 'Contact' },
 ]
-const projectTabs = ['Overview', 'Architecture', 'Decisions', 'Evaluation', 'Challenges', 'Links']
+const projectTabs = ['Overview', 'Workflow', 'Decisions', 'Challenges', 'Next Steps']
 const transition = { duration: 0.34, ease: [0.22, 1, 0.36, 1] }
 
 function Header() {
@@ -72,17 +72,19 @@ function About() {
   return <PageFrame title="About">
     <PageHeading number="01" label="ABOUT" title={<>Curious by nature.<br/><span>Engineering by practice.</span></>}/>
     <div className="about-screen">
-      <div className="about-copy"><Eyebrow>A LITTLE ABOUT ME</Eyebrow><p className="about-lead">I'm a final-year Computer Science & Engineering student specialising in Artificial Intelligence & Machine Learning at <strong>JSS Academy of Technical Education.</strong></p><p>My interests sit across applied AI and software development. I've worked on document intelligence, retrieval-augmented generation and early explorations of agentic workflows. I enjoy understanding a problem, making considered engineering choices and turning an idea into something that works.</p><p>I'm still learning, and I value that process: being deliberate about what I build, honest about what I know, and willing to dig into the parts I don't understand yet.</p></div>
-      <aside className="about-side"><div className="about-monogram">D<span>J</span><i>.</i></div><div className="quick-facts"><div><small>COLLEGE</small><strong>JSS Academy of Technical Education</strong></div><div><small>GRADUATION</small><strong>2027 · B.Tech</strong></div><div><small>FOCUS</small><strong>AI systems & software engineering</strong></div></div></aside>
+      <div className="about-copy"><Eyebrow>A LITTLE ABOUT ME</Eyebrow><p className="about-lead">I'm a final-year Computer Science & Engineering student specialising in Artificial Intelligence & Machine Learning at <strong>JSS Academy of Technical Education.</strong></p><p>My interests sit across applied AI and software development. I've worked on document intelligence, retrieval-augmented generation and early explorations of agentic workflows. I enjoy understanding a problem, making considered engineering choices and turning an idea into something that works.</p><p>I'm still learning, and I value that process: being deliberate about what I build, honest about what I know, and willing to dig into the parts I don't understand yet.</p><div className="about-education"><Eyebrow>EDUCATION</Eyebrow><div><strong>Senior Secondary Education</strong><span>Apeejay School Noida · PCM · 2023</span></div><div><strong>Secondary Education</strong><span>Apeejay School Noida · 2021</span></div></div></div>
+      <aside className="about-side"><div className="about-portrait-wrap"><img className="about-portrait" src="/images/profile.png" alt="Portrait of Divija Jain" /></div><div className="quick-facts"><div><small>COLLEGE</small><strong>JSS Academy of Technical Education</strong></div><div><small>GRADUATION</small><strong>2027 · B.Tech</strong></div><div><small>FOCUS</small><strong>AI systems & software engineering</strong></div></div></aside>
     </div>
   </PageFrame>
 }
 
 function Work() {
   return <PageFrame title="Projects">
-    <PageHeading number="02" label="PROJECTS" title={<>Selected work<span>.</span></>}/>
-    <div className="work-toolbar simple-work-toolbar"><span className="work-hint">Select a card to view project details <ArrowRight size={14}/></span></div>
-    <div className="work-grid simple-work-grid">{projects.map((p,i)=><Link to={`/work/${p.slug}`} className="work-card" key={p.slug}><div className={`work-art art-${i}`}><span className="work-index">{p.number} / PROJECT</span><span className="work-monogram">{p.monogram}</span><span className="work-open"><ArrowUpRight size={18}/></span></div><div className="work-info"><div className="work-meta"><span>{p.category}</span><span>{p.status}</span></div><h2>{p.name}</h2><p>{p.shortDescription}</p><div className="work-tags">{p.stack.slice(0,3).map(s=><span key={s}>{s}</span>)}</div><span className="work-card-link">View project <ArrowUpRight size={14}/></span></div></Link>)}</div>
+    <PageHeading title={<>Selected work<span>.</span></>}/>
+    <div className="work-grid simple-work-grid">{projects.map((p,i)=><article className="work-card" key={p.slug}>
+      <Link to={`/work/${p.slug}`} className={`work-art art-${i}`} aria-label={`View ${p.name} case study`}><span className="work-index">0{i+1} / PROJECT</span><img className="project-thumbnail" src={p.image} alt={`${p.name} application interface`} loading="lazy" /><span className="work-open"><ArrowUpRight size={18}/></span></Link>
+      <div className="work-info"><div className="work-meta"><span>{p.category}</span><span>{p.status}</span></div><h2>{p.name}</h2><p>{p.shortDescription}</p><div className="work-card-actions"><Link to={`/work/${p.slug}`} className="work-card-link">Case study <ArrowUpRight size={14}/></Link><div><a href={p.github} target="_blank" rel="noreferrer" aria-label={`${p.name} GitHub`}><Github size={16}/></a>{p.video&&<a href={p.video} target="_blank" rel="noreferrer" aria-label={`${p.name} recorded demo`}><ExternalLink size={16}/></a>}</div></div></div>
+    </article>)}</div>
   </PageFrame>
 }
 
@@ -91,25 +93,24 @@ function ProjectDetail() {
   const [tab, setTab] = useState('Overview')
   const project = projects.find(p => p.slug === slug)
   const projectIndex = projects.findIndex(p => p.slug === slug)
-  const previousProject = projects[projectIndex - 1]
   const nextProject = projects[projectIndex + 1]
   useEffect(() => setTab('Overview'), [slug])
   if (!project) return <PageFrame title="Not found"><p>Project not found.</p><Link to="/work">Back to projects</Link></PageFrame>
   const details = {
-    Overview: <div className="case-content"><div><Eyebrow>THE PROJECT</Eyebrow><h2>{project.name}</h2><p>{project.description}</p><p>{project.outcome}</p></div><div className="case-fact"><small>MY CONTRIBUTION</small><p>{project.contribution}</p><small>PROJECT STATUS</small><p>{project.status || 'In progress'}</p></div></div>,
-    Architecture: <div className="case-content"><div><Eyebrow>SYSTEM SHAPE</Eyebrow><h2>How the pieces fit.</h2><p>{project.name === 'NexusAI' ? 'Document upload → PDF parsing → hierarchical indexing and knowledge representation → retrieval of relevant context → LLM-generated response.' : 'The architecture is being documented alongside implementation. This view will be updated with a verified component and data-flow diagram.'}</p></div><div className="architecture-flow">{(project.name === 'NexusAI' ? ['Input documents','Parse & index','Retrieve context','Generate answer'] : ['Input','Processing','Core logic','Output']).map((x,i)=><div key={x}><span>0{i+1}</span><strong>{x}</strong>{i!==3&&<ArrowRight size={15}/>}</div>)}</div></div>,
-    Decisions: <div className="case-content"><div><Eyebrow>ENGINEERING DECISIONS</Eyebrow><h2>Trade-offs matter.</h2><p>Technical decisions should explain why a particular approach was chosen, what alternatives were considered and what constraints shaped the implementation.</p></div><div className="case-fact"><small>DOCUMENTATION STATUS</small><p>Implementation-specific decisions will be added after reviewing the final repository, so this section reflects actual engineering choices rather than assumptions.</p></div></div>,
-    Evaluation: <div className="case-content"><div><Eyebrow>TESTING & EVALUATION</Eyebrow><h2>Evidence over claims.</h2><p>No performance metric is published here unless it comes from a repeatable test or documented evaluation.</p></div><div className="case-fact"><small>CURRENT REPORTING</small><p>Qualitative implementation status. Quantitative evaluation to be added when a reproducible test set and scoring method are available.</p></div></div>,
-    Challenges: <div className="case-content"><div><Eyebrow>WHAT I LEARNED</Eyebrow><h2>The difficult bits.</h2><p>{project.name === 'NexusAI' ? 'Working with document parsing, hierarchical structures, model integration and retrieval means balancing output quality, system reliability and practical constraints.' : 'Challenges and lessons will be described from the implementation itself, including debugging, design trade-offs and what changed during development.'}</p></div><div className="case-fact"><small>REFLECTION</small><p>Focus on the problem, the investigation, the fix and what I would improve next.</p></div></div>,
-    Links: <div className="case-content"><div><Eyebrow>REPOSITORY & DEMO</Eyebrow><h2>Take a closer look.</h2><p>Explore the implementation and supporting material.</p></div><div className="case-links">{project.github ? <a className="button button-dark" href={project.github} target="_blank" rel="noreferrer">GitHub repository <Github size={15}/></a> : <span className="pending-link">Repository link will be added after verification.</span>}{project.demo ? <a className="button button-blue" href={project.demo} target="_blank" rel="noreferrer">Live demo <ExternalLink size={15}/></a> : <span className="pending-link">No public demo available yet.</span>}</div></div>
+    Overview: <div className="case-content"><div><Eyebrow>THE PROJECT</Eyebrow><h2>{project.summary}</h2><h3>Problem</h3><p>{project.problem}</p><h3>Approach</h3><p>{project.solution}</p></div><div className="case-fact"><small>MY ROLE</small><p>{project.role}</p><small>CONTRIBUTION</small><p>{project.contribution}</p><small>TIMELINE · TEAM</small><p>{project.timeline} · {project.team}</p><small>STATUS</small><p>{project.status}</p></div></div>,
+    Workflow: <div className="architecture-section"><div className="architecture-intro"><Eyebrow>PROJECT WORKFLOW</Eyebrow><h2>From input to outcome.</h2><p>{project.name==='NexusAI'?'A structure-aware retrieval pipeline that prepares document context before local generation.':'A transaction risk-analysis pipeline that preprocesses transaction features, detects anomalies and serves risk-oriented results.'}</p></div><div className="architecture-horizontal">{project.architecture.map(([title,caption],i)=><React.Fragment key={title}><article className="architecture-stage"><span>0{i+1}</span><strong>{title}</strong><p>{caption}</p></article>{i<project.architecture.length-1&&<ArrowRight className="architecture-arrow" size={18}/>}</React.Fragment>)}</div><p className="architecture-note">{project.name==='NexusAI'?'Storage: PostgreSQL. Model inference: locally through Ollama.':'Model artefacts and preprocessing are persisted for reuse; Flask exposes prediction functionality to the Streamlit interface.'}</p></div>,
+    Decisions: <div className="decision-grid">{project.decisions.map((d,i)=><article className="decision-card" key={d.title}><span>0{i+1} / DECISION</span><h3>{d.title}</h3><p><b>Choice</b> {d.choice}</p><p><b>Why</b> {d.why}</p><p><b>Trade-off</b> {d.tradeoff}</p></article>)}</div>,
+    Challenges: <div className="challenge-grid">{project.challenges.map((c,i)=><article className="challenge-card" key={c.title}><span>0{i+1} / CHALLENGE</span><h3>{c.title}</h3><p><b>Problem</b> {c.problem}</p><p><b>Approach</b> {c.approach}</p><p><b>Outcome</b> {c.result}</p></article>)}</div>,
+    'Next Steps': <div className="case-content"><div><Eyebrow>LIMITATIONS & ROADMAP</Eyebrow><h2>What I'd improve next.</h2><p>These are planned improvements, not claims about functionality already delivered.</p><ul className="next-steps-list">{project.nextSteps.map(x=><li key={x}>{x}</li>)}</ul></div><div className="case-fact"><small>KEY TAKEAWAY</small><p>{project.takeaways}</p></div></div>
   }
   return <PageFrame title={`${project.name} case study`} className="case-page">
     <div className="breadcrumbs"><Link to="/work"><ArrowLeft size={14}/> All projects</Link><ChevronRight size={13}/><span>{project.name}</span></div>
-    <div className="case-heading"><div><Eyebrow>CASE STUDY / {project.number}</Eyebrow><h1>{project.name}<span>.</span></h1><p>{project.category}</p></div><div className="case-mark">{project.monogram}</div></div>
+    <div className="case-heading"><div><Eyebrow>CASE STUDY / {project.number}</Eyebrow><h1>{project.name}<span>.</span></h1><p>{project.category}</p></div><div className="case-mark">{project.name==='NexusAI'?'NX':'FS'}</div></div>
+    <div className="case-fixed-meta"><div className="case-stack"><small>TECH STACK</small><div>{project.stack.map(s=><span key={s}>{s}</span>)}</div></div><div className="case-header-links"><a href={project.github} target="_blank" rel="noreferrer"><Github size={15}/> GitHub</a>{project.demo&&<a href={project.demo} target="_blank" rel="noreferrer"><ExternalLink size={15}/> Live demo</a>}{project.video&&<a href={project.video} target="_blank" rel="noreferrer"><ExternalLink size={15}/> Recorded demo</a>}</div></div>
     <div className="case-tabs" role="tablist" aria-label="Project case study sections">{projectTabs.map(t=><button role="tab" aria-selected={tab===t} className={tab===t?'case-tab active':'case-tab'} key={t} onClick={()=>setTab(t)}>{t}</button>)}</div>
     <AnimatePresence mode="wait"><motion.section key={tab} className="case-panel" role="tabpanel" initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-5}} transition={{duration:.2}}>{details[tab]}</motion.section></AnimatePresence>
-    <div className="case-stack"><small>TECH STACK</small><div>{project.stack.map(s=><span key={s}>{s}</span>)}</div></div>
-    <div className="case-bottom"><Link to={previousProject ? `/work/${previousProject.slug}` : '/work'}><ArrowLeft size={15}/> {previousProject ? previousProject.name : 'All projects'}</Link><Link to={nextProject ? `/work/${nextProject.slug}` : '/work'}>{nextProject ? nextProject.name : 'All projects'} <ArrowRight size={15}/></Link></div>
+    <div className="case-bottom"><Link to="/work"><ArrowLeft size={15}/> All projects</Link>{nextProject&&<Link to={`/work/${nextProject.slug}`}>{nextProject.name} <ArrowRight size={15}/></Link>}</div>
+    <div className="case-takeaway"><b>KEY TAKEAWAY</b><p>{project.takeaways}</p></div>
   </PageFrame>
 }
 
@@ -117,7 +118,8 @@ function Experience() {
   const [expanded, setExpanded] = useState('rategain')
   const items = [
     { id:'rategain', type:'INTERNSHIP', title:'AI Intern', org:'RateGain', meta:'Industry experience', icon:<BriefcaseBusiness/>, body:'Worked on NexusAI, a hybrid document intelligence project. The work involved document parsing, hierarchical indexing, knowledge representation, retrieval and model integration.', tags:['Python','FastAPI','RAG','LLMs'], link:'/work/nexusai', linkText:'Explore NexusAI' },
-    { id:'education', type:'EDUCATION', title:'B.Tech — Computer Science & Engineering', org:'JSS Academy of Technical Education · AKTU', meta:'AI & ML specialisation', icon:<GraduationCap/>, body:'Building a foundation in computer science, programming, software development and applied artificial intelligence.', tags:['Computer Science','AI & ML'] },
+    { id:'education', type:'EDUCATION', title:'B.Tech — Computer Science & Engineering', org:'JSS Academy of Technical Education · AKTU', meta:'AI & ML specialisation', icon:<GraduationCap/>, body:'Bachelor of Technology in Computer Science (AI & ML), expected graduation July 2027.', tags:['Computer Science','AI & ML'] },
+    { id:'senior-secondary', type:'EDUCATION', title:'Senior Secondary Education · PCM', org:'Apeejay School Noida', meta:'2023', icon:<GraduationCap/>, body:'Completed Senior Secondary Education with Physics, Chemistry and Mathematics (PCM).', tags:['CBSE','PCM','2023'] },
     { id:'volunteer', type:'VOLUNTEERING', title:'Volunteer · 60 hours', org:'Binary Foundation', meta:'Community contribution', icon:<Sparkles/>, body:'Contributed 60 hours of volunteer service teaching children. This helped me practise communicating ideas clearly and taking responsibility for a shared goal.', tags:['Teaching','Communication'] },
   ]
   return <PageFrame title="Experience">
@@ -129,10 +131,31 @@ function Experience() {
 function Skills() {
   const [active, setActive] = useState(skillGroups[0].name)
   const group = skillGroups.find(g=>g.name===active) || skillGroups[0]
-  const related = (skill) => projects.filter(p=>p.stack.some(s=>s.toLowerCase()===skill.toLowerCase()) || p.description.toLowerCase().includes(skill.toLowerCase()))
+  const skillEvidence = {
+    'SQL': { status: 'Used in project', projects: ['nexusai'] },
+    'Java': { status: 'Learning', projects: [] },
+    'TypeScript': { status: 'Explored', projects: [] },
+    'Machine Learning': { status: 'Used in project', projects: ['fraudshieldai'] },
+    'Hierarchical Retrieval': { status: 'Used in project', projects: ['nexusai'] },
+    'LLM Applications': { status: 'Learning', projects: [] },
+    'MCP': { status: 'Used in project', projects: ['nexusai'] },
+    'FastMCP': { status: 'Exploring', projects: [] },
+    'OCR': { status: 'Exploring', projects: [] },
+    'Spring Boot': { status: 'Learning', projects: [] },
+    'React.js': { status: 'Used in project', projects: ['nexusai'] },
+    'Git': { status: 'Explored', projects: [] },
+    'GitHub': { status: 'Used in projects', projects: ['nexusai', 'fraudshieldai'] },
+    'Postman': { status: 'Explored', projects: [] }
+  }
+  const related = (skill) => {
+    const explicit = skillEvidence[skill]
+    if (explicit) return explicit.projects.map(slug => projects.find(p => p.slug === slug)).filter(Boolean)
+    return projects.filter(p => p.stack.some(s => s.toLowerCase() === skill.toLowerCase()) || `${p.summary} ${p.problem} ${p.solution} ${p.shortDescription}`.toLowerCase().includes(skill.toLowerCase()))
+  }
+  const evidenceLabel = (skill) => skillEvidence[skill]?.status || (related(skill).length ? `${related(skill).length} related project${related(skill).length>1?'s':''}` : 'Explored / learning')
   return <PageFrame title="Skills">
     <PageHeading number="04" label="SKILLS & TOOLS" title={<>The tools I use<br/><span>to make things work.</span></>}/>
-    <div className="skills-view"><div className="skill-categories" role="tablist" aria-label="Skill categories">{skillGroups.map(g=><button role="tab" aria-selected={active===g.name} className={active===g.name?'skill-category active':'skill-category'} onClick={()=>setActive(g.name)} key={g.name}>{g.name}<ArrowUpRight size={14}/></button>)}</div><div className="skill-detail"><Eyebrow>SELECTED CATEGORY</Eyebrow><h2>{group.name}</h2><div className="skill-chip-grid">{group.items.map(s=><div className="skill-chip" key={s}><span>{s}</span><small>{related(s).length ? `${related(s).length} related project${related(s).length>1?'s':''}` : 'Explored / learning'}</small>{related(s).length>0&&<div className="skill-related">{related(s).map(p=><Link to={`/work/${p.slug}`} key={p.slug}>{p.name} <ArrowUpRight size={12}/></Link>)}</div>}</div>)}</div></div></div>
+    <div className="skills-view"><div className="skill-categories" role="tablist" aria-label="Skill categories">{skillGroups.map(g=><button role="tab" aria-selected={active===g.name} className={active===g.name?'skill-category active':'skill-category'} onClick={()=>setActive(g.name)} key={g.name}>{g.name}<ArrowUpRight size={14}/></button>)}</div><div className="skill-detail"><Eyebrow>SELECTED CATEGORY</Eyebrow><h2>{group.name}</h2><div className="skill-chip-grid">{group.items.map(s=><div className="skill-chip" key={s}><span>{s}</span><small>{evidenceLabel(s)}</small>{related(s).length>0&&<div className="skill-related">{related(s).map(p=><Link to={`/work/${p.slug}`} key={p.slug}>{p.name} <ArrowUpRight size={12}/></Link>)}</div>}</div>)}</div></div></div>
   </PageFrame>
 }
 
@@ -141,14 +164,14 @@ function Contact() {
     <div className="contact-main">
       <h1>Have something<br/>in <span>mind?</span></h1>
       <p>I'm open to conversations about entry-level opportunities, interesting engineering problems, collaborations and ideas worth exploring.</p>
-      {profile.email ? <a className="button button-blue" href={`mailto:${profile.email}`}>Email me <Mail size={16}/></a> : <span className="pending-link">Professional email will be added here.</span>}
+      {profile.email ? <a className="button button-blue" href={`mailto:${profile.email}?subject=${encodeURIComponent("Connection request from your portfolio")}&body=${encodeURIComponent("Hello Divija,\n\nI would like to connect with you.\n\nName: \nEmail: \nMessage: ")}`}>Email me <Mail size={16}/></a> : <span className="pending-link">Professional email will be added here.</span>}
     </div>
     <aside className="contact-side">
       <Eyebrow>ELSEWHERE ON THE INTERNET</Eyebrow>
       {profile.email && <a href={`mailto:${profile.email}`}><Mail/><span>Email</span><ArrowUpRight/></a>}
       {profile.linkedin && <a href={profile.linkedin} target="_blank" rel="noreferrer"><Linkedin/><span>LinkedIn</span><ArrowUpRight/></a>}
       {profile.github && <a href={profile.github} target="_blank" rel="noreferrer"><Github/><span>GitHub</span><ArrowUpRight/></a>}
-      {!profile.email && !profile.linkedin && !profile.github && <p>Contact links are being configured. Add your professional email, LinkedIn and GitHub URLs in <code>src/App.jsx</code>.</p>}
+      
     </aside>
   </PageFrame>
 }

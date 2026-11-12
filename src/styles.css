@@ -58,3 +58,84 @@
 .hub-link-number,.hub-proof,.home-bottom,.small-note{display:none!important}
 .simple-work-toolbar{justify-content:flex-end}
 .contact-main>.eyebrow{display:none}
+
+/* Project case-study refresh */
+.work-grid.simple-work-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.simple-work-grid .work-art{height:210px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;text-decoration:none}
+.simple-work-grid .work-monogram{display:none}
+.project-artwork{width:78%;height:72%;border:1px solid rgba(49,91,255,.18);background:linear-gradient(135deg,#f9fbff,#eaf0fc);display:flex;align-items:center;justify-content:center;position:relative}
+.project-artwork:before,.project-artwork:after{content:"";position:absolute;border:1px solid rgba(49,91,255,.2);border-radius:50%;width:190px;height:190px}
+.project-artwork:after{width:145px;height:145px}
+.project-artwork i{font-style:normal;font-size:64px;font-weight:800;color:#315bff;z-index:1}
+.project-artwork>span{position:absolute;top:14px;left:15px;font:9px monospace;letter-spacing:.12em;color:#64748b}
+.work-card-actions{display:flex;align-items:center;justify-content:space-between;margin-top:16px}
+.work-card-actions>div{display:flex;gap:14px}
+.work-card-actions>div a{color:var(--muted);display:inline-flex}
+.simple-work-grid .work-tags{display:none!important}
+.case-fixed-meta{border-bottom:1px solid var(--line);padding:14px 0 16px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.case-fixed-meta .case-stack{border:0;padding:0;margin:0;display:flex;align-items:flex-start;gap:15px}
+.case-fixed-meta .case-stack>div{display:flex;flex-wrap:wrap;gap:7px}
+.case-header-links{display:flex;gap:15px;flex-shrink:0}
+.case-header-links a{display:inline-flex;align-items:center;gap:6px;color:var(--navy);font-size:11px;font-weight:600}
+.case-tabs{margin-top:0}
+.case-content h2{font-size:clamp(22px,2.3vw,30px);line-height:1.25;max-width:760px}
+.case-content h3{font-size:15px;margin:22px 0 5px}
+.case-content ul{padding-left:18px}
+.next-steps-list li{margin:0 0 12px;line-height:1.7;color:var(--muted);font-size:13px}
+.architecture-section{padding:25px 0}
+.architecture-intro{max-width:760px;margin-bottom:26px}
+.architecture-intro h2{font-size:26px;margin:8px 0}
+.architecture-horizontal{display:flex;align-items:stretch;gap:9px}
+.architecture-stage{flex:1;min-width:0;background:#f0f3fa;border:1px solid var(--line);padding:15px 13px}
+.architecture-stage>span,.decision-card>span,.challenge-card>span{font:10px monospace;color:var(--blue)}
+.architecture-stage strong{display:block;margin:13px 0 7px;font-size:13px}
+.architecture-stage p{font-size:11px;line-height:1.55;color:var(--muted);margin:0}
+.architecture-arrow{align-self:center;color:var(--blue);flex-shrink:0}
+.architecture-note{font-size:11px;color:var(--muted);margin-top:17px}
+.decision-grid,.challenge-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:20px 0}
+.decision-card,.challenge-card{border:1px solid var(--line);padding:17px}
+.decision-card h3,.challenge-card h3{font-size:16px;margin:9px 0 12px}
+.decision-card p,.challenge-card p{font-size:11px;line-height:1.65;color:var(--muted);margin:7px 0}
+.decision-card b,.challenge-card b{color:var(--navy)}
+.case-takeaway{border-top:1px solid var(--line);padding:14px 0 5px;display:flex;gap:18px;align-items:flex-start}
+.case-takeaway b{font:10px monospace;letter-spacing:.08em;color:var(--blue);white-space:nowrap}
+.case-takeaway p{font-size:11px;color:var(--muted);margin:0}
+@media(max-width:800px){
+ .architecture-horizontal{display:grid;grid-template-columns:1fr 1fr}
+ .architecture-arrow{display:none}
+ .case-fixed-meta{align-items:flex-start;flex-direction:column}
+ .case-fixed-meta .case-stack{flex-direction:column}
+}
+@media(max-width:650px){
+ .work-grid.simple-work-grid{grid-template-columns:1fr}
+ .simple-work-grid .work-card{display:block}
+ .simple-work-grid .work-art{height:170px}
+ .decision-grid,.challenge-grid{grid-template-columns:1fr}
+ .architecture-horizontal{grid-template-columns:1fr}
+ .case-tabs{overflow-x:auto;white-space:nowrap}
+ .case-takeaway{flex-direction:column;gap:6px}
+}
+
+.project-artwork i{width:92px;height:92px;border:2px solid #315bff;border-radius:22px;background:linear-gradient(145deg,#fff,#dfe9ff);box-shadow:18px 16px 0 -8px #c9d8ff, -18px -14px 0 -8px #e3ebff;position:relative}
+.project-artwork i:before,.project-artwork i:after{content:"";position:absolute;background:#315bff;opacity:.75}
+.project-artwork i:before{height:7px;width:48px;left:20px;top:25px;box-shadow:0 17px 0 #8ca9ee,0 34px 0 #8ca9ee}
+.project-artwork i:after{width:13px;height:13px;border-radius:50%;right:-24px;bottom:-17px;box-shadow:-88px -45px 0 #8ca9ee,-45px -75px 0 #315bff}
+
+/* Real application screenshots used as project-card thumbnails */
+.simple-work-grid .work-art{background:#eef2fa}
+.simple-work-grid .project-thumbnail{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.simple-work-grid .work-art:hover .project-thumbnail{transform:scale(1.015);transition:transform .35s ease}
+@media(prefers-reduced-motion:reduce){.simple-work-grid .work-art:hover .project-thumbnail{transition:none;transform:none}}
+
+/* Education details on the About page */
+.about-education{margin-top:22px;border-top:1px solid var(--line);padding-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px 22px}
+.about-education>.eyebrow{grid-column:1/-1;margin:0 0 2px}
+.about-education>div{display:flex;flex-direction:column;gap:5px}
+.about-education strong{font-size:11px;color:var(--ink)}
+.about-education span{font-size:10px;line-height:1.5;color:var(--muted)}
+@media(max-width:680px){.about-education{grid-template-columns:1fr;gap:11px}.about-education>.eyebrow{grid-column:auto}}
+
+/* Profile portrait: original uploaded image, displayed without retouching or cropping */
+.about-portrait-wrap{width:100%;max-width:330px;margin:0 auto 24px;background:#fff;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.about-portrait{display:block;width:100%;height:auto;max-height:360px;object-fit:contain;object-position:center bottom}
+@media(max-width:680px){.about-portrait-wrap{max-width:250px;margin:0 auto 18px}.about-portrait{max-height:300px}}

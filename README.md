@@ -1,6 +1,6 @@
 # Divija Jain — Portfolio
 
-A React + Vite portfolio with simple, direct navigation. The home page acts as a clear starting point, and each section has its own shareable URL.
+React + Vite portfolio for Divija Jain. Uses a click-to-transition, route-based layout with responsive navigation.
 
 ## Run locally
 
@@ -9,42 +9,40 @@ npm install
 npm run dev
 ```
 
-Open the local URL printed by Vite (usually `http://localhost:5173`).
-
-## Build for production
+## Production build
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## Navigation
+## Current project case studies
 
-- Main sections: Home, About, Projects, Experience, Skills and Contact.
-- The header remains visible and highlights the current section.
-- The home page lists every section so visitors can quickly understand what is available.
-- Each project has a dedicated URL under `/work/:slug`. Use the “All projects” link to return to the project list.
-- Browser back/forward and direct links are supported through React Router.
-- Section changes use a restrained fade/slide transition; reduced-motion preferences are respected.
-- Mobile visitors can use the menu button in the header.
+The Projects section currently features:
+1. NexusAI — document intelligence and RAG.
+2. FraudShieldAI — UPI transaction anomaly/risk analysis.
 
-## Projects currently listed
+BharatExtractAI and Automation are intentionally excluded from the visible project list for now.
 
-1. NexusAI
-2. FraudShieldAI
-3. BharatExtractAI
-4. Automation
+Each project case study includes:
+- Overview
+- Architecture
+- Engineering decisions
+- Challenges
+- Next steps and key takeaways
 
-The Automation entry is intentionally marked as awaiting project details. Replace its description, contribution, stack and outcome in `src/data/content.js` once the exact use case is confirmed.
+The technology stack and GitHub/README actions are fixed beneath the project title. Demo and video buttons will appear when actual public URLs are added.
+
+## Update project content
+
+Edit `src/data/content.js`. Each project object contains its description, contribution, technology stack, repository URLs, architecture stages, decisions, challenges and next steps.
+
+Do not publish unverified metrics. For FraudShieldAI, add model evaluation results only after testing against a labelled, representative dataset. For NexusAI, add retrieval and answer-quality metrics only after creating a reproducible evaluation set.
 
 ## Personalise before publishing
 
-In `src/App.jsx`, update the `profile` object with verified contact links and the final resume path. Place the PDF at `public/Divija-Jain-Resume.pdf`. Do not publish placeholder contact details.
+Update the `profile` object in `src/App.jsx` with verified email, GitHub, LinkedIn and resume details. Add the final PDF under `public/` and set its path in the profile object.
 
-## Content accuracy
+## Deployment
 
-Project descriptions avoid unverified performance claims. Add measured metrics only after documenting the dataset, evaluation method and results. Update `src/data/content.js` with verified repository/demo links and implementation details.
-
-## Deploy
-
-The included `vercel.json` rewrites direct route requests to `index.html`, so nested portfolio URLs continue to work when refreshed or shared. Deploy the project root to Vercel after adding verified links and the final résumé.
+The included `vercel.json` configures SPA route fallback so nested React Router URLs can be refreshed and shared on Vercel.
