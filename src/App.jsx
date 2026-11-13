@@ -40,7 +40,7 @@ function PageFrame({ children, title, className = '' }) {
   useEffect(() => { headingRef.current?.focus({ preventScroll: true }) }, [])
   return <motion.main ref={headingRef} tabIndex={-1} aria-label={title || 'Portfolio page'} className={`page ${className}`} initial={reduce ? { opacity: 0 } : { opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, x: -20 }} transition={reduce ? { duration: .12 } : transition}>{children}</motion.main>
 }
-function Footer() { return <footer className="site-footer"><span>DIVIJA JAIN · CSE (AI & ML)</span><span>BUILT WITH CURIOSITY & CODE</span><span>© {new Date().getFullYear()}</span></footer> }
+function Footer() { return <footer className="site-footer"><span>DIVIJA JAIN · CSE (AI & ML)</span></footer> }
 function PageHeading({ title }) { return <div className="page-heading"><h1>{title}</h1></div> }
 
 function Home() {
