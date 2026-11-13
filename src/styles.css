@@ -139,3 +139,5 @@
 .about-portrait-wrap{width:100%;max-width:330px;margin:0 auto 24px;background:#fff;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
 .about-portrait{display:block;width:100%;height:auto;max-height:360px;object-fit:contain;object-position:center bottom}
 @media(max-width:680px){.about-portrait-wrap{max-width:250px;margin:0 auto 18px}.about-portrait{max-height:300px}}
+
+.footer-center { display: flex; justify-content: center; align-items: center; width: 100%; text-align: center;}
